@@ -2,8 +2,16 @@ import random
 import uuid
 import json
 from faker import Faker
+from google.cloud import pubsub_v1
 
-fake = Faker("es_ES")  # Generador de nombres en español
+fake = Faker("es_ES") 
+
+# Configuración de Google Cloud Pub/Sub
+PROJECT_ID = "data-project-2425"  
+TOPIC_NAME = "voluntarios_dana"  
+
+publisher = pubsub_v1.PublisherClient()
+topic_path = publisher.topic_path(PROJECT_ID, TOPIC_NAME)
 
 # Tipos de ayuda disponibles
 TIPOS_AYUDA = [
@@ -128,17 +136,19 @@ def generar_voluntario():
         }
     }
 
-# Generar una lista de voluntarios
-def generar_voluntarios(n=10):
-    return [generar_voluntario() for _ in range(n)]
+# Publicar voluntario en Pub/Sub
+def publicar_voluntario(voluntario):
+    data = json.dumps(voluntario).encode("utf-8")
+    future = publisher.publish(topic_path, data)
+    print(f"Voluntario publicado en Pub/Sub: {voluntario['id']}")
+    return future.result()
 
-# Guardar los datos en un archivo JSON
-def guardar_voluntarios_json(filename="voluntarios.json", n=10):
-    voluntarios = generar_voluntarios(n)
-    with open(filename, "w", encoding="utf-8") as f:
-        json.dump(voluntarios, f, indent=4, ensure_ascii=False)
-    print(f"{n} voluntarios generados y guardados en {filename}")
+# Generar y enviar varios voluntarios a Pub/Sub
+def enviar_voluntarios_pubsub(n=10):
+    for _ in range(n):
+        voluntario = generar_voluntario()
+        publicar_voluntario(voluntario)
 
-# Ejecutar la generación de datos si se ejecuta el script directamente
+# Ejecutar la subida de datos
 if __name__ == "__main__":
-    guardar_voluntarios_json(n=20)
+    enviar_voluntarios_pubsub(n=20)
