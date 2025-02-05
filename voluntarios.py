@@ -1,23 +1,27 @@
 import random
 import uuid
 import json
+import argparse
 from faker import Faker
 from google.cloud import pubsub_v1
 
 fake = Faker("es_ES") 
 
-# Configuración de Google Cloud Pub/Sub
-PROJECT_ID = "data-project-2425"  
-TOPIC_NAME = "voluntarios_dana"  
+# Argumentos desde la línea de comandos
+def get_args():
+    parser = argparse.ArgumentParser(description="Generador de datos aleatorios de voluntarios para Pub/Sub")
+    parser.add_argument("--project_id", type=str, required=True, help="ID del proyecto de Google Cloud")
+    parser.add_argument("--topic_name", type=str, required=True, help="Nombre del tópico de Pub/Sub")
+    parser.add_argument("--num_voluntarios", type=int, default=10, help="Número de voluntarios a generar")
+    return parser.parse_args() 
 
-publisher = pubsub_v1.PublisherClient()
-topic_path = publisher.topic_path(PROJECT_ID, TOPIC_NAME)
 
 # Tipos de ayuda disponibles
 TIPOS_AYUDA = [
     "Primeros auxilios", "Limpieza", "Maquinaria pesada", "Transporte",
     "Cuidado de personas", "Suministros", "Alimentación", "Asistencia psicológica"
 ]
+
 
 MUNICIPIOS_COORDENADAS = {
     "Alaquàs": (39.4553, -0.4613),
@@ -111,11 +115,8 @@ MUNICIPIOS_COORDENADAS = {
 def generar_coordenadas():
     municipio = random.choice(list(MUNICIPIOS_COORDENADAS.keys()))
     lat_centro, lon_centro = MUNICIPIOS_COORDENADAS[municipio]
-    # Generar una pequeña desviación aleatoria
-    lat_offset = random.uniform(-0.01, 0.01)
-    lon_offset = random.uniform(-0.01, 0.01)
-    latitud = round(lat_centro + lat_offset, 6)
-    longitud = round(lon_centro + lon_offset, 6)
+    latitud = round(lat_centro + random.uniform(-0.01, 0.01), 6)
+    longitud = round(lon_centro + random.uniform(-0.01, 0.01), 6)
     return municipio, latitud, longitud
 
 # Generar un voluntario aleatorio
@@ -137,18 +138,22 @@ def generar_voluntario():
     }
 
 # Publicar voluntario en Pub/Sub
-def publicar_voluntario(voluntario):
+def publicar_voluntario(publisher, topic_path, voluntario):
     data = json.dumps(voluntario).encode("utf-8")
     future = publisher.publish(topic_path, data)
     print(f"Voluntario publicado en Pub/Sub: {voluntario['id']}")
     return future.result()
 
 # Generar y enviar varios voluntarios a Pub/Sub
-def enviar_voluntarios_pubsub(n=10):
-    for _ in range(n):
-        voluntario = generar_voluntario()
-        publicar_voluntario(voluntario)
+def enviar_voluntarios_pubsub(project_id, topic_name, num_voluntarios):
+    publisher = pubsub_v1.PublisherClient()
+    topic_path = publisher.topic_path(project_id, topic_name)
 
-# Ejecutar la subida de datos
+    for _ in range(num_voluntarios):
+        voluntario = generar_voluntario()
+        publicar_voluntario(publisher, topic_path, voluntario)
+
+# Ejecutar el script con los argumentos
 if __name__ == "__main__":
-    enviar_voluntarios_pubsub(n=20)
+    args = get_args()
+    enviar_voluntarios_pubsub(args.project_id, args.topic_name, args.num_voluntarios)
