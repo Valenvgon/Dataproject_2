@@ -1,0 +1,407 @@
+[
+    {
+        "id": "c1f20cb3-1379-4504-a867-c8bb18621d93",
+        "nombre": "Abigaíl Soriano Arnaiz",
+        "edad": 24,
+        "telefono": "689194873",
+        "municipio": "Llíria",
+        "ubicacion": {
+            "latitud": 39.632881,
+            "longitud": -0.606917
+        },
+        "habilidades": [
+            "Suministros",
+            "Asistencia psicológica"
+        ],
+        "disponibilidad": {
+            "mañana": true,
+            "tarde": true,
+            "noche": false
+        }
+    },
+    {
+        "id": "3df58fe4-c34a-465c-88b1-623accd3af4c",
+        "nombre": "Basilio Grau Salom",
+        "edad": 39,
+        "telefono": "624157792",
+        "municipio": "Senyera",
+        "ubicacion": {
+            "latitud": 39.050299,
+            "longitud": -0.503178
+        },
+        "habilidades": [
+            "Maquinaria pesada",
+            "Alimentación"
+        ],
+        "disponibilidad": {
+            "mañana": false,
+            "tarde": true,
+            "noche": true
+        }
+    },
+    {
+        "id": "50876d14-6cdb-49fb-8c71-53c1c014fade",
+        "nombre": "Felipe Canales Carreras",
+        "edad": 64,
+        "telefono": "630412662",
+        "municipio": "Llombai",
+        "ubicacion": {
+            "latitud": 39.291647,
+            "longitud": -0.606642
+        },
+        "habilidades": [
+            "Primeros auxilios"
+        ],
+        "disponibilidad": {
+            "mañana": true,
+            "tarde": true,
+            "noche": true
+        }
+    },
+    {
+        "id": "97b44a43-da97-4858-999b-b8a2d15b6586",
+        "nombre": "Paloma de Grau",
+        "edad": 37,
+        "telefono": "668247844",
+        "municipio": "Llíria",
+        "ubicacion": {
+            "latitud": 39.625203,
+            "longitud": -0.597235
+        },
+        "habilidades": [
+            "Maquinaria pesada",
+            "Asistencia psicológica",
+            "Cuidado de personas"
+        ],
+        "disponibilidad": {
+            "mañana": false,
+            "tarde": true,
+            "noche": false
+        }
+    },
+    {
+        "id": "ae5fc69f-401c-4d81-a8d9-b97352dfd749",
+        "nombre": "Raquel del Roma",
+        "edad": 50,
+        "telefono": "646526208",
+        "municipio": "Beniparrell",
+        "ubicacion": {
+            "latitud": 39.36129,
+            "longitud": -0.417325
+        },
+        "habilidades": [
+            "Primeros auxilios",
+            "Transporte"
+        ],
+        "disponibilidad": {
+            "mañana": false,
+            "tarde": true,
+            "noche": false
+        }
+    },
+    {
+        "id": "a7813a36-ba7d-4849-9592-6f2a458496d3",
+        "nombre": "María Vazquez Becerra",
+        "edad": 46,
+        "telefono": "660146696",
+        "municipio": "Senyera",
+        "ubicacion": {
+            "latitud": 39.042358,
+            "longitud": -0.493765
+        },
+        "habilidades": [
+            "Transporte",
+            "Limpieza",
+            "Maquinaria pesada"
+        ],
+        "disponibilidad": {
+            "mañana": false,
+            "tarde": false,
+            "noche": false
+        }
+    },
+    {
+        "id": "dce8d0d3-4ea5-4e62-9792-3baa1f0c0557",
+        "nombre": "Régulo de Bernat",
+        "edad": 29,
+        "telefono": "672650305",
+        "municipio": "Tous",
+        "ubicacion": {
+            "latitud": 39.108104,
+            "longitud": -0.570146
+        },
+        "habilidades": [
+            "Primeros auxilios"
+        ],
+        "disponibilidad": {
+            "mañana": false,
+            "tarde": true,
+            "noche": false
+        }
+    },
+    {
+        "id": "9cd331de-3e71-45f3-94c7-47f2738c6cbe",
+        "nombre": "Edmundo Mariño Ledesma",
+        "edad": 48,
+        "telefono": "687745376",
+        "municipio": "Bétera",
+        "ubicacion": {
+            "latitud": 39.58147,
+            "longitud": -0.457083
+        },
+        "habilidades": [
+            "Primeros auxilios",
+            "Asistencia psicológica",
+            "Alimentación"
+        ],
+        "disponibilidad": {
+            "mañana": false,
+            "tarde": false,
+            "noche": false
+        }
+    },
+    {
+        "id": "781783b3-775e-4bcf-ae3c-8d90df4adf78",
+        "nombre": "Diego Esteban Juárez",
+        "edad": 62,
+        "telefono": "675969844",
+        "municipio": "l'Ènova",
+        "ubicacion": {
+            "latitud": 39.068642,
+            "longitud": -0.474358
+        },
+        "habilidades": [
+            "Primeros auxilios",
+            "Cuidado de personas",
+            "Limpieza"
+        ],
+        "disponibilidad": {
+            "mañana": true,
+            "tarde": true,
+            "noche": false
+        }
+    },
+    {
+        "id": "7d6bffb7-4638-4c76-8746-a7f8ba98fe5d",
+        "nombre": "Augusto Vizcaíno Sanmiguel",
+        "edad": 30,
+        "telefono": "624649272",
+        "municipio": "Algemesí",
+        "ubicacion": {
+            "latitud": 39.180056,
+            "longitud": -0.435489
+        },
+        "habilidades": [
+            "Transporte",
+            "Maquinaria pesada"
+        ],
+        "disponibilidad": {
+            "mañana": false,
+            "tarde": false,
+            "noche": false
+        }
+    },
+    {
+        "id": "73200e68-1290-4b1e-b87b-f8895bec2b01",
+        "nombre": "Olegario Campos Borja",
+        "edad": 38,
+        "telefono": "666839082",
+        "municipio": "Alfafar",
+        "ubicacion": {
+            "latitud": 39.423159,
+            "longitud": -0.400231
+        },
+        "habilidades": [
+            "Suministros",
+            "Primeros auxilios"
+        ],
+        "disponibilidad": {
+            "mañana": true,
+            "tarde": false,
+            "noche": false
+        }
+    },
+    {
+        "id": "1b5a9ae7-4c82-4e14-a990-6b1a2bf91535",
+        "nombre": "Eufemia Perez Pagès",
+        "edad": 23,
+        "telefono": "655915189",
+        "municipio": "Castelló",
+        "ubicacion": {
+            "latitud": 39.16077,
+            "longitud": -0.580038
+        },
+        "habilidades": [
+            "Transporte",
+            "Asistencia psicológica",
+            "Cuidado de personas"
+        ],
+        "disponibilidad": {
+            "mañana": true,
+            "tarde": true,
+            "noche": true
+        }
+    },
+    {
+        "id": "9485d93d-3a14-4031-a2ca-d7f1b484e5c9",
+        "nombre": "Dionisio del Fortuny",
+        "edad": 61,
+        "telefono": "690523011",
+        "municipio": "Polinyà de Xúquer",
+        "ubicacion": {
+            "latitud": 39.204589,
+            "longitud": -0.404955
+        },
+        "habilidades": [
+            "Transporte",
+            "Maquinaria pesada",
+            "Asistencia psicológica"
+        ],
+        "disponibilidad": {
+            "mañana": true,
+            "tarde": true,
+            "noche": true
+        }
+    },
+    {
+        "id": "b8cd20c7-ed4a-4ab2-843d-6cf2e5d23613",
+        "nombre": "Fátima Fuertes-Ojeda",
+        "edad": 60,
+        "telefono": "671406869",
+        "municipio": "Alfafar",
+        "ubicacion": {
+            "latitud": 39.419852,
+            "longitud": -0.404311
+        },
+        "habilidades": [
+            "Maquinaria pesada"
+        ],
+        "disponibilidad": {
+            "mañana": false,
+            "tarde": false,
+            "noche": true
+        }
+    },
+    {
+        "id": "10ed0acf-dfe5-4459-8ab1-5656c3bbaa34",
+        "nombre": "Carolina de Cabrero",
+        "edad": 51,
+        "telefono": "667760970",
+        "municipio": "Riola",
+        "ubicacion": {
+            "latitud": 39.20081,
+            "longitud": -0.351405
+        },
+        "habilidades": [
+            "Maquinaria pesada",
+            "Asistencia psicológica"
+        ],
+        "disponibilidad": {
+            "mañana": true,
+            "tarde": false,
+            "noche": false
+        }
+    },
+    {
+        "id": "ecc7396a-f28e-42ee-a6fd-53e53aa5e2de",
+        "nombre": "Oriana Donoso-Palomino",
+        "edad": 48,
+        "telefono": "663810879",
+        "municipio": "Quart de Poblet",
+        "ubicacion": {
+            "latitud": 39.490805,
+            "longitud": -0.441133
+        },
+        "habilidades": [
+            "Suministros",
+            "Primeros auxilios",
+            "Maquinaria pesada"
+        ],
+        "disponibilidad": {
+            "mañana": true,
+            "tarde": true,
+            "noche": true
+        }
+    },
+    {
+        "id": "5451992a-fc9e-4be2-99b2-8dbd864b2223",
+        "nombre": "Eloísa Alsina Tejero",
+        "edad": 54,
+        "telefono": "644123278",
+        "municipio": "Godelleta",
+        "ubicacion": {
+            "latitud": 39.450011,
+            "longitud": -0.690261
+        },
+        "habilidades": [
+            "Limpieza"
+        ],
+        "disponibilidad": {
+            "mañana": true,
+            "tarde": false,
+            "noche": false
+        }
+    },
+    {
+        "id": "23c7e38e-badb-40bb-8fe1-981e7b2f6b5b",
+        "nombre": "Manu Criado Alemany",
+        "edad": 49,
+        "telefono": "669175250",
+        "municipio": "Alginet",
+        "ubicacion": {
+            "latitud": 39.245239,
+            "longitud": -0.470761
+        },
+        "habilidades": [
+            "Alimentación",
+            "Limpieza"
+        ],
+        "disponibilidad": {
+            "mañana": false,
+            "tarde": true,
+            "noche": false
+        }
+    },
+    {
+        "id": "3e2275da-af0f-4259-8b15-5f8a2f43ef65",
+        "nombre": "Eleuterio Ángel Bonilla Font",
+        "edad": 27,
+        "telefono": "691220805",
+        "municipio": "Riola",
+        "ubicacion": {
+            "latitud": 39.201591,
+            "longitud": -0.351015
+        },
+        "habilidades": [
+            "Alimentación",
+            "Suministros",
+            "Maquinaria pesada"
+        ],
+        "disponibilidad": {
+            "mañana": true,
+            "tarde": false,
+            "noche": true
+        }
+    },
+    {
+        "id": "8ce3c073-3fe1-4c4f-a57f-9f0aa28353f8",
+        "nombre": "Chus Serra-Molina",
+        "edad": 47,
+        "telefono": "691215586",
+        "municipio": "Turís",
+        "ubicacion": {
+            "latitud": 39.407846,
+            "longitud": -0.705952
+        },
+        "habilidades": [
+            "Primeros auxilios",
+            "Limpieza",
+            "Alimentación"
+        ],
+        "disponibilidad": {
+            "mañana": true,
+            "tarde": false,
+            "noche": true
+        }
+    }
+]
