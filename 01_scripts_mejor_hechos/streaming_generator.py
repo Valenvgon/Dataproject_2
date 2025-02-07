@@ -107,8 +107,12 @@ if __name__ == "__main__":
 
     parser.add_argument('--affected_topic',
         required=True, 
-        help='Topic name for affected people.'
+        help='Topic name for affected messages.'
     )
+
+    parser.add_argument('--volunteer_topic',
+        required= True, 
+        help='Topic name for volunteer messages')
 
     parser.add_argument('--num_affected_people', 
         required=False, 
@@ -122,7 +126,7 @@ if __name__ == "__main__":
     
     logging.basicConfig(level=logging.INFO)
     logging.info("Starting streaming data generator")
-    run_streaming(args.project_id, args.affected_topic, args.num_affected_people)
+    run_streaming(args.project_id, args.affected_topic, args.volunteer_topic, args.num_affected_people)
     logging.info("Streaming data generator finished")
 
 
