@@ -1,4 +1,5 @@
 import random
+import unidecode
 
 def get_cities():
     cities_list = [
@@ -118,9 +119,12 @@ def get_messages_volunteers():
     return messages 
 
 def disponibility_options():
-    options = ('manana', 'tarde')
+    options = ('manana', 'tarde', 'todo_el_dia')
     disponibility = random.choice(options)
 
     return disponibility
+
+def normalize_names(name):
+    return unidecode.unidecode(name)
 
     

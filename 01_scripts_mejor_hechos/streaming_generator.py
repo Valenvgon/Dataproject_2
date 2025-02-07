@@ -7,7 +7,7 @@ from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderTimedOut
 import argparse
 from pubsub import PubSubMessages
-from definitions import get_cities, get_messages_affected, generate_phone_number, get_messages_volunteers, disponibility_options
+from definitions import get_cities, get_messages_affected, generate_phone_number, get_messages_volunteers, disponibility_options, normalize_names
 
 def get_city_coordinates():
     """
@@ -44,7 +44,7 @@ def generate_affected_messages(affected_id, timestamp_af, city, city_data, radiu
     messages = get_messages_affected()
 
     fake = fk.Faker('es_ES')
-    name = fake.name()
+    name = normalize_names(fake.name())
     phone = generate_phone_number()
 
     category, message, necessity = random.choice(messages)
@@ -74,7 +74,7 @@ def generate_volunteer_messages(volunteer_id, timestamp_vol, city_vol):
     messages= get_messages_volunteers()
 
     fake = fk.Faker('es_ES')
-    name = fake.name()
+    name = normalize_names(fake.name())
     phone = generate_phone_number()
     category, message, necessity = random.choice(messages)
 
