@@ -12,7 +12,7 @@ def get_cities():
     return cities_list
 
 
-def get_messages():
+def get_messages_affected():
     messages = [
     ("suministros", "Se necesita comida y agua potable para familias afectadas por la inundacion.", "comida_bebida"),
     ("suministros", "Se requiere ropa seca para personas que lo han perdido todo en la tormenta.", "ropa"),
@@ -80,3 +80,47 @@ def get_messages():
 
 def generate_phone_number():
     return f'+34-{random.randint(600000000, 699999999)}'
+
+
+def get_messages_volunteers():
+    messages= [
+    ("suministros", "Somos un grupo de voluntarios y llevamos comida y agua potable para los afectados.", "comida_bebida"),
+    ("suministros", "Recolectamos ropa seca para distribuirla entre quienes la necesiten.", "ropa"),
+    ("suministros", "Llevamos kits de higiene y productos de limpieza a los refugios.", "productos_limpieza"),
+    ("suministros", "Tenemos alimentos no perecederos para repartir en zonas afectadas.", "comida_bebida"),
+    ("suministros", "Estamos recolectando productos de higiene personal para entregar en los albergues.", "productos_limpieza"),
+
+    ("limpieza_calles/casas", "Vamos con palas para ayudar a retirar el lodo de las calles.", "palas"),
+    ("limpieza_calles/casas", "Llevamos escobas para colaborar en la limpieza de viviendas afectadas.", "escobas"),
+    ("limpieza_calles/casas", "Nos ofrecemos para ayudar con cubos y otros utensilios en la limpieza de refugios.", "cubos"),
+    ("limpieza_calles/casas", "Contamos con herramientas para ayudar en la limpieza de un colegio inundado.", "escobas"),
+    ("limpieza_calles/casas", "Vamos con cubos y palas para despejar los accesos en zonas anegadas.", "cubos"),
+
+    ("maquinaria", "Disponemos de un tractor para remover escombros y abrir caminos.", "tractor"),
+    ("maquinaria", "Podemos llevar una grua para ayudar a mover vehiculos atrapados.", "grua"),
+    ("maquinaria", "Ofrecemos un 4x4 para trasladar suministros a zonas de dificil acceso.", "4X4"),
+    ("maquinaria", "Llevamos una bomba de agua para ayudar a drenar viviendas inundadas.", "bomba_agua"),
+    ("maquinaria", "Tenemos un tractor disponible para despejar carreteras bloqueadas.", "tractor"),
+
+    ("cuidados_medicos", "Soy medico y puedo atender a personas con heridas leves.", "atencion_enfermos"),
+    ("cuidados_medicos", "Llevamos medicinas para personas con diabetes que las necesiten.", "medicinas_diabetes"),
+    ("cuidados_medicos", "Contamos con medicamentos para quienes padecen problemas del corazon.", "medicinas_corazon"),
+    ("cuidados_medicos", "Llevamos medicamentos genericos y material de primeros auxilios.", "medicinas_genericas"),
+    ("cuidados_medicos", "Somos un equipo de enfermeros listos para atender a los afectados.", "atencion_enfermos"),
+
+    ("transporte", "Tengo un vehiculo disponible para evacuar personas de zonas afectadas.", "transporte"),
+    ("transporte", "Ofrezco transporte para trasladar ancianos a un refugio seguro.", "transporte"),
+    ("transporte", "Podemos llevar suministros a barrios aislados en nuestro vehiculo.", "transporte"),
+    ("transporte", "Disponemos de espacio para trasladar familias afectadas a otras zonas.", "transporte"),
+    ("transporte", "Somos un equipo de voluntarios con furgonetas para ayudar en el traslado de personas.", "transporte")
+    ]
+
+    return messages 
+
+def disponibility_options():
+    options = ('manana', 'tarde')
+    disponibility = random.choice(options)
+
+    return disponibility
+
+    

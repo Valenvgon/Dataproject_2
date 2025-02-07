@@ -7,7 +7,7 @@ from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderTimedOut
 import argparse
 from pubsub import PubSubMessages
-from definitions import get_cities, get_messages, generate_phone_number
+from definitions import get_cities, get_messages_affected, generate_phone_number, get_messages_volunteers, disponibility_options
 
 def get_city_coordinates():
     """
@@ -19,69 +19,104 @@ def get_city_coordinates():
     city_coordinates = {}
 
     for city in cities_list:
-        attempts = 3  # Número de reintentos
+        attempts = 3  
         for attempt in range(attempts):
             try:
-                location = geolocator.geocode(city, timeout=10)  # Se asegura de no bloquear
+                location = geolocator.geocode(city, timeout=10)  
                 if location:
                     city_coordinates[city] = {"latitude": location.latitude, "longitude": location.longitude}
                 else:
                     logging.warning(f"No se encontraron coordenadas para {city}. Se usará (0.0, 0.0).")
                     city_coordinates[city] = {"latitude": 0.0, "longitude": 0.0}
-                break  # Salir del intento si se obtiene una respuesta válida
+                break  
             except GeocoderTimedOut:
                 logging.warning(f"Tiempo de espera agotado para {city}. Reintentando... ({attempt+1}/{attempts})")
-                time.sleep(2)  # Esperar antes de reintentar
+                time.sleep(2) 
             except Exception as e:
                 logging.error(f"Error obteniendo coordenadas de {city}: {e}")
                 city_coordinates[city] = {"latitude": 0.0, "longitude": 0.0}
-                break  # Salir del intento si ocurre otro error
+                break  
     
     return city_coordinates, cities_list 
 
-def generate_affected_message(affected_id, timestamp, city, city_data, radius=0.005):
+def generate_affected_messages(affected_id, timestamp_af, city, city_data, radius=0.005):
 
-    messages = get_messages()
+    messages = get_messages_affected()
 
     fake = fk.Faker('es_ES')
     name = fake.name()
     phone = generate_phone_number()
-    # city= aqui debe ir el nombre de la ciudad que se coja de generate_city_coordenates para que cada mensaje tenga la ciudad donde este el afectado
+
     category, message, necessity = random.choice(messages)
     
     lat = city_data['latitude'] + random.uniform(-radius, radius)
     lon = city_data['longitude'] + random.uniform(-radius, radius)
 
     selected_city = city
+
+    disponibility= disponibility_options()
     
     return {
         "affected_id": affected_id,
-        "timestamp": timestamp.strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "timestamp": timestamp_af.strftime("%Y-%m-%dT%H:%M:%SZ"),
         "name": name,
         "phone": phone,
         "category": category,
         "message": message,
         "necessity": necessity,
         "city": selected_city,
+        'disponibility': disponibility,
         "latitude": lat,
         "longitude": lon
     }
 
-def run_streaming(project_id: str, affected_topic: str, num_affected_people: int):
+def generate_volunteer_messages(volunteer_id, timestamp_vol, city_vol):
+    messages= get_messages_volunteers()
+
+    fake = fk.Faker('es_ES')
+    name = fake.name()
+    phone = generate_phone_number()
+    category, message, necessity = random.choice(messages)
+
+    selected_city= city_vol
+
+    disponibility= disponibility_options()
+
+    return {
+        "volunteer_id": volunteer_id,
+        "timestamp": timestamp_vol.strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "name": name,
+        "phone": phone,
+        "category": category,
+        "message": message,
+        "necessity": necessity,
+        "city": selected_city,
+        'disponibility': disponibility,
+    }
+
+def run_streaming(project_id: str, affected_topic: str, volunteer_topic:str, num_affected_people: int):
     pubsub_class = PubSubMessages(project_id=project_id)
-    affected_ids = affected_ids = {f"affected_{str(i).zfill(7)}" for i in range(1, num_affected_people + 1)}
-    timestamps = {affected_id: datetime.now() for affected_id in affected_ids}
+    affected_ids = {f"affected_{str(i).zfill(7)}" for i in range(1, num_affected_people + 1)}
+    volunteer_ids = {f"volunteer_{str(i).zfill(7)}" for i in range(1, num_affected_people + 1)}
+    timestamps_af = {affected_id: datetime.now() for affected_id in affected_ids}
+    timestamps_vol = {volunteer_id: datetime.now() for volunteer_id in volunteer_ids}
     city_coordinates, cities_list = get_city_coordinates()
     
     try:
         while True:
             affected_id = random.choice(list(affected_ids))
+            volunteer_id = random.choice(list(volunteer_ids))
             selected_city = random.choice(cities_list)
+            selected_city_vol = random.choice(cities_list)
             city_data = city_coordinates.get(selected_city, {"latitude": 0.0, "longitude": 0.0})
-            event = generate_affected_message(affected_id, timestamps[affected_id], selected_city, city_data)
+            event = generate_affected_messages(affected_id, timestamps_af[affected_id], selected_city, city_data)
+            event_vol= generate_volunteer_messages(volunteer_id, timestamps_vol[volunteer_id], selected_city_vol)
             pubsub_class.publishMessages(payload=event, topic_name=affected_topic)
+            pubsub_class.publishMessages(payload= event_vol, topic_name=volunteer_topic)
             logging.info(f"Published message for {affected_id} to {affected_topic}")
-            timestamps[affected_id] += timedelta(seconds=random.randint(1, 60))
+            logging.info(f"Published message for {volunteer_id} to {volunteer_topic}")
+            timestamps_af[affected_id] += timedelta(seconds=random.randint(1, 60))
+            timestamps_vol[volunteer_id] += timedelta(seconds=random.randint(1, 60))
             time.sleep(10)
     
     except KeyboardInterrupt:
@@ -136,7 +171,7 @@ if __name__ == "__main__":
 
 to run the script:
 
-python streaming_generator.py --project_id data-project-2425 --affected_topic affected
+python streaming_generator.py --project_id data-project-2425 --affected_topic affected --volunteer_topic volunteer
 
 
 '''
