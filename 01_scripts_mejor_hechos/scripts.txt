@@ -1,0 +1,9 @@
+gcloud artifacts repositories create generate-messages \
+ --repository-format=docker \
+ --location=europe-southwest1
+
+docker build --platform linux/amd64 -t run-job .
+
+docker tag run-job europe-southwest1-docker.pkg.dev/data-project-2425/generate-messages/run-job:v1
+
+docker push europe-southwest1-docker.pkg.dev/data-project-2425/generate-messages/run-job:v1
