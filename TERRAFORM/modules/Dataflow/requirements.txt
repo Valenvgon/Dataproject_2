@@ -1,0 +1,9 @@
+apache-beam[gcp]
+google-cloud-pubsub
+google-cloud-bigquery
+google-cloud-storage
+google-api-python-client
+grpcio
+protobuf
+argparse
+logging

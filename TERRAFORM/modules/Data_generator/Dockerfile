@@ -12,4 +12,4 @@ COPY requirements.txt requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Comando por defecto para ejecutar el script con argumentos de ejemplo
-CMD ["python", "streaming_generator.py", "--project_id", "data-project-2425", "--affected_topic", "afectados_dana", "--volunteer_topic", "voluntarios_dana"]
+CMD ["python", "streaming_generator.py", "--project_id", "data-project-2425", "--affected_topic", "afectados", "--volunteer_topic", "voluntarios"]

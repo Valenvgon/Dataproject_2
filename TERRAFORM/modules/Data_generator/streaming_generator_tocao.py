@@ -10,6 +10,7 @@ import unidecode
 from google.cloud import pubsub_v1
 import logging
 import json
+import uuid 
 
 class PubSubMessages:
 
@@ -269,10 +270,10 @@ def generate_volunteer_messages(volunteer_id, timestamp_vol, city_vol):
         'disponibility': disponibility,
     }
 
-def run_streaming(project_id: str, affected_topic: str, volunteer_topic:str, num_affected_people: int):
+def run_streaming(project_id: str, affected_topic: str, volunteer_topic:str):
     pubsub_class = PubSubMessages(project_id=project_id)
-    affected_ids = {f"affected_{str(i).zfill(7)}" for i in range(1, num_affected_people + 1)}
-    volunteer_ids = {f"volunteer_{str(i).zfill(7)}" for i in range(1, num_affected_people + 1)}
+    affected_ids = {f"affected_{str(i).zfill(7)}" for i in range(1,  + 1)}
+    volunteer_ids = {f"volunteer_{str(i).zfill(7)}" for i in range(1,  + 1)}
     timestamps_af = {affected_id: datetime.now() for affected_id in affected_ids}
     timestamps_vol = {volunteer_id: datetime.now() for volunteer_id in volunteer_ids}
     city_coordinates, cities_list = get_city_coordinates()
@@ -323,20 +324,12 @@ if __name__ == "__main__":
     parser.add_argument('--volunteer_topic',
         required= True, 
         help='Topic name for volunteer messages')
-
-    parser.add_argument('--num_affected_people', 
-        required=False, 
-        default=200, 
-        type=int, 
-        help='Number of messages to send.'
-    )
-
     
     args = parser.parse_args()
     
     logging.basicConfig(level=logging.INFO)
     logging.info("Starting streaming data generator")
-    run_streaming(args.project_id, args.affected_topic, args.volunteer_topic, args.num_affected_people)
+    run_streaming(args.project_id, args.affected_topic, args.volunteer_topic)
     logging.info("Streaming data generator finished")
 
 
@@ -346,6 +339,6 @@ if __name__ == "__main__":
 
 to run the script:
 
-python streaming_generator.py --project_id data-project-2425 --affected_topic afectados_dana --volunteer_topic voluntarios_dana
+python streaming_generator.py --project_id data-project-2425 --affected_topic afectados --volunteer_topic voluntarios
 
 '''
