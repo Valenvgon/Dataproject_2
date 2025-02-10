@@ -1,8 +1,6 @@
 terraform {
-  required_providers {
-    google = {
-      source  = "hashicorp/google"
-      version = "~> 5.0"
-    }
+  backend "gcs" {
+    bucket = "terraform-bucket-dataproject-2425"
+    prefix = "terraform/state"
   }
 }
