@@ -1,53 +1,65 @@
-resource "google_pubsub_topic" "volunteer" {
-  name = "volunteer"
-}
-
-resource "google_pubsub_topic" "affected" {
-  name = "affected"
-}
-
 resource "google_artifact_registry_repository" "repo" {
   provider      = google
-  location      = "europe-west1"
-  repository_id = "data-generator-repo"
+  project       = var.project_id
+  location      = var.region
+  repository_id = "volunteer-matching-repo"
   format        = "DOCKER"
 }
 
-resource "google_cloud_run_service" "generator_service" {
-  name     = "generator-service"
+resource "google_pubsub_topic" "volunteers" {
+  name    = "volunteers"
+  project = var.project_id
+}
+
+resource "google_pubsub_topic" "affected" {
+  name    = "affected"
+  project = var.project_id
+}
+
+resource "google_cloud_run_service" "generator" {
+  name     = "volunteer-generator"
   location = var.region
+  project  = var.project_id
 
   template {
     spec {
       containers {
-        image = "europe-west1-docker.pkg.dev/${var.project_id}/${var.artifact_repo}/generator:latest"
+        image = "europe-west1-docker.pkg.dev/${var.project_id}/volunteer-matching-repo/generator:latest"
+        env {
+          name  = "PROJECT_ID"
+          value = var.project_id
+        }
       }
     }
   }
 }
 
 resource "google_cloudbuild_trigger" "build_generator" {
-  name        = "build-generator"
-  description = "Trigger para construir y subir la imagen de generator.py"
+  project  = var.project_id
+  location = var.region
+  name     = "build-generator-image"
 
-  github {
-    owner = "tu-usuario"
-    name  = "tu-repo"
-    push {
-      branch = "main"
-    }
+  trigger_template {
+    repo_name   = "volunteer-matching-repo"
+    branch_name = "main"
   }
 
   build {
     step {
-      name       = "gcr.io/cloud-builders/docker"
-      args       = ["build", "-t", "europe-west1-docker.pkg.dev/${var.project_id}/${var.artifact_repo}/generator:latest", "."]
-      dir        = "terraform/modules/Data_Generator"
-    }
-
-    step {
       name = "gcr.io/cloud-builders/docker"
-      args = ["push", "europe-west1-docker.pkg.dev/${var.project_id}/${var.artifact_repo}/generator:latest"]
+      args = ["build", "-t", "europe-west1-docker.pkg.dev/${var.project_id}/volunteer-matching-repo/generator:latest", "."]
     }
+    images = ["europe-west1-docker.pkg.dev/${var.project_id}/volunteer-matching-repo/generator:latest"]
   }
+}
+
+
+variable "project_id" {
+  description = "El ID del proyecto"
+  type        = string
+}
+
+variable "region" {
+  description = "La región de despliegue"
+  type        = string
 }

@@ -1,35 +1,35 @@
-resource "google_storage_bucket" "dataflow_bucket" {
-  name     = "${var.project_id}-dataflow-bucket"
-  location = var.region
-
-  storage_class = "STANDARD"
-
-  uniform_bucket_level_access = true
-}
-
 resource "google_pubsub_topic" "matched" {
-  name = "matched"
+  name    = "matched"
+  project = var.project_id
 }
 
-resource "google_pubsub_topic" "not_matched" {
-  name = "not_matched"
+resource "google_pubsub_topic" "no_matched" {
+  name    = "no_matched"
+  project = var.project_id
 }
 
-resource "google_bigquery_dataset" "volunteer_data" {
-  dataset_id = "volunteer_data"
+resource "google_storage_bucket" "dataflow_bucket" {
+  name          = var.bucket_dataflow
+  location      = var.region
+  storage_class = "STANDARD"
+}
+
+resource "google_bigquery_dataset" "volunteer_matching" {
+  dataset_id = "volunteer_matching"
   project    = var.project_id
   location   = var.region
 }
+variable "project_id" {
+  description = "El ID del proyecto"
+  type        = string
+}
 
-resource "google_bigquery_table" "matches" {
-  dataset_id = google_bigquery_dataset.volunteer_data.dataset_id
-  table_id   = "matched_volunteers"
+variable "region" {
+  description = "La región de despliegue"
+  type        = string
+}
 
-  schema = <<EOF
-[
-  {"name": "volunteer_id", "type": "STRING", "mode": "REQUIRED"},
-  {"name": "affected_id", "type": "STRING", "mode": "REQUIRED"},
-  {"name": "match_score", "type": "FLOAT", "mode": "REQUIRED"}
-]
-EOF
+variable "bucket_dataflow" {
+  description = "nombre del bucket de dataflow"
+  type        = string
 }

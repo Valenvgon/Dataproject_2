@@ -1,23 +1,34 @@
 variable "project_id" {
-  description = "El ID del proyecto de Google Cloud"
+  description = "El ID del proyecto en Google Cloud"
   type        = string
-  default     = "data-project-2425"
 }
 
 variable "region" {
-  description = "Región de despliegue en Google Cloud"
+  description = "Región donde se desplegarán los recursos"
   type        = string
-  default     = "europe-west1"
+}
+
+variable "bucket_dataflow" {
+  description = "Nombre del bucket para Dataflow"
+  type        = string
 }
 
 variable "artifact_repo" {
-  description = "Nombre del repositorio de Artifact Registry"
+  description = "nombre del repo de artifact"
   type        = string
-  default     = "volunteer-registry"
 }
 
-variable "dataflow_bucket" {
-  description = "Bucket de Cloud Storage para Dataflow"
+variable "image_name" {
+  description = "Nombre de la imagen"
   type        = string
-  default     = "dataflow_bucket_dataproject_2425"
+}
+
+variable "cloud_run_service" {
+  description = "Nombre del servicio de cloud run"
+  type        = string
+}
+
+variable "bigquery_dataset" {
+  description = "Nombre del biquery dataset"
+  type        = string
 }
