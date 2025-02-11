@@ -271,8 +271,8 @@ def generate_volunteer_messages(volunteer_id, timestamp_vol, city_vol):
 
 def run_streaming(project_id: str, affected_topic: str, volunteer_topic:str, num_affected_people: int):
     pubsub_class = PubSubMessages(project_id=project_id)
-    affected_ids = {f"affected_{str(i).zfill(7)}" for i in range(1, num_affected_people + 1)}
-    volunteer_ids = {f"volunteer_{str(i).zfill(7)}" for i in range(1, num_affected_people + 1)}
+    affected_ids = [f"affected_{str(i).zfill(5)}" for i in range(10000, 10100)]
+    volunteer_ids = [f"volunteer_{str(i).zfill(5)}" for i in range(10000, 10100)]
     timestamps_af = {affected_id: datetime.now() for affected_id in affected_ids}
     timestamps_vol = {volunteer_id: datetime.now() for volunteer_id in volunteer_ids}
     city_coordinates, cities_list = get_city_coordinates()

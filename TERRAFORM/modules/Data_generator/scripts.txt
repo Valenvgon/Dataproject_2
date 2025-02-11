@@ -7,3 +7,50 @@ docker build --platform linux/amd64 -t run-job .
 docker tag run-job europe-southwest1-docker.pkg.dev/data-project-2425/generate-messages/run-job:v1
 
 docker push europe-southwest1-docker.pkg.dev/data-project-2425/generate-messages/run-job:v1
+
+python dataflow_pipeline.py \
+    --runner DataflowRunner \
+    --project data-project-2425 \
+    --region europe-southwest1 \
+    --temp_location gs://dataflow_bucket_dataproject_2425/temp \
+    --staging_location gs://dataflow_bucket_dataproject_2425/staging \
+    --requirements_files requirements.txt
+
+
+python edem_dataflow_pipeline.py \
+    --project_id <YOUR_PROJECT_ID> \
+    --battery_telemetry_subscription <YOUR_BATTERY_PUBSUB_SUBSCRIPTION_NAME> \
+    --driving_telemetry_subscription <YOUR_DRIVING_PUBSUB_SUBSCRIPTION_NAME> \
+    --environment_telemetry_subscription <YOUR_ENVIRONMENT_PUBSUB_SUBSCRIPTION_NAME> \
+    --firestore_collection <YOUR_FIRESTORE_COLLECTION_NAME>
+    --output_topic <YOUR_OUTPUT_PUBSUB_TOPIC_NAME> \
+    --image_api <API_URL> \
+    --system_id <YOUR_USER_NAME> \
+    --runner DataflowRunner \
+    --job_name <YOUR_DATAFLOW_JOB> \
+    --region <YOUR_REGION_ID> \
+    --temp_location gs://<YOUR_BUCKET_NAME>/tmp \
+    --staging_location gs://<YOUR_BUCKET_NAME>/stg \
+    --requirements_file <YOUR_REQUIREMENTS_FILE>
+
+python edem_dataflow_pipeline.py \
+    --project_id data-project-2425 \
+    --battery_telemetry_subscription <YOUR_BATTERY_PUBSUB_SUBSCRIPTION_NAME> \
+    --driving_telemetry_subscription <YOUR_DRIVING_PUBSUB_SUBSCRIPTION_NAME> \
+    --environment_telemetry_subscription <YOUR_ENVIRONMENT_PUBSUB_SUBSCRIPTION_NAME> \
+    --firestore_collection <YOUR_FIRESTORE_COLLECTION_NAME>
+    --output_topic <YOUR_OUTPUT_PUBSUB_TOPIC_NAME> \
+    --image_api <API_URL> \
+    --system_id <YOUR_USER_NAME>
+
+
+python dataflow_pipeline.py \
+    --project_id data-project-2425 \
+    --voluntarios_topic projects/data-project-2425/topics/voluntarios_prueba \
+    --afectados_topic projects/data-project-2425/topics/afectados_prueba \
+    --output_topic projects/data-project-2425/topics/matches \
+    --runner DataflowRunner \
+    --region europe-southwest1 \
+    --temp_location gs://dataflow_bucket_dataproject_2425/temp \
+    --staging_location gs://dataflow_bucket_dataproject_2425/staging \
+    --requirements_files requirements.txt
