@@ -10,7 +10,6 @@ import unidecode
 from google.cloud import pubsub_v1
 import logging
 import json
-import uuid 
 
 fake = fk.Faker('es_ES')
 
@@ -158,7 +157,8 @@ def generate_affected_messages(affected_id, timestamp_af, city, city_data, radiu
         "city": selected_city,
         'disponibility': disponibility,
         "latitude": lat,
-        "longitude": lon
+        "longitude": lon,
+        'procesed': 0
     }
 
 def generate_volunteer_messages(volunteer_id, timestamp_vol, city_vol):
@@ -183,12 +183,13 @@ def generate_volunteer_messages(volunteer_id, timestamp_vol, city_vol):
         "necessity": necessity,
         "city": selected_city,
         'disponibility': disponibility,
+        'procesed': 0
     }
 
 def run_streaming(project_id: str, affected_topic: str, volunteer_topic:str):
     pubsub_class = PubSubMessages(project_id=project_id)
-    affected_ids = str(fake.uuid4())
-    volunteer_ids = str(fake.uuid4())
+    affected_ids = [f"affected_{str(i).zfill(5)}" for i in range(10000, 10100)]
+    volunteer_ids = [f"volunteer_{str(i).zfill(5)}" for i in range(10000, 10100)]
     timestamps_af = {affected_id: datetime.now() for affected_id in affected_ids}
     timestamps_vol = {volunteer_id: datetime.now() for volunteer_id in volunteer_ids}
     city_coordinates, cities_list = get_city_coordinates()
@@ -208,7 +209,7 @@ def run_streaming(project_id: str, affected_topic: str, volunteer_topic:str):
             logging.info(f"Published message for {volunteer_id} to {volunteer_topic}")
             timestamps_af[affected_id] += timedelta(seconds=random.randint(1, 60))
             timestamps_vol[volunteer_id] += timedelta(seconds=random.randint(1, 60))
-            time.sleep(1)
+            time.sleep(0.5)
     
     except KeyboardInterrupt:
         logging.info("Process interrupted by user")
@@ -254,6 +255,6 @@ if __name__ == "__main__":
 
 to run the script:
 
-python streaming_generator_tocao.py --project_id data-project-2425 --affected_topic afectados_prueba --volunteer_topic voluntarios_prueba
+python streaming_generator_tocao.py --project_id data-project-2425 --affected_topic affected --volunteer_topic volunteer
 
 '''
