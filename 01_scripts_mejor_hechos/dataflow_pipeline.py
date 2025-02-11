@@ -47,11 +47,18 @@ class MatchVoluntariosAfectados(beam.DoFn):
                 "afectado": affected_data,
                 "voluntario": volunteer_filtered[0]
             }
+
             logging.info(f"MATCH encontrado: {match}")
             yield beam.pvalue.TaggedOutput('matched_data', match)
+        
         else:
-            logging.info(f"NO MATCH para afectado: {affected_data}")
+            logging.info(f"NO MATCH: {affected_data}")
             yield beam.pvalue.TaggedOutput('non_matched_data', affected_data)
+
+            logging.info(f"NO MATCH: {volunteer_filtered}")
+            yield beam.pvalue.TaggedOutput('non_matched_data', volunteer_data)
+
+            
 
 
 def run(): 
