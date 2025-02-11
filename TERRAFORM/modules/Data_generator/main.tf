@@ -32,27 +32,8 @@ resource "google_cloud_run_service" "generator" {
       }
     }
   }
+  depends_on = [google_artifact_registry_repository.repo]
 }
-
-resource "google_cloudbuild_trigger" "build_generator" {
-  project  = var.project_id
-  location = var.region
-  name     = "build-generator-image"
-
-  trigger_template {
-    repo_name   = "volunteer-matching-repo"
-    branch_name = "main"
-  }
-
-  build {
-    step {
-      name = "gcr.io/cloud-builders/docker"
-      args = ["build", "-t", "europe-west1-docker.pkg.dev/${var.project_id}/volunteer-matching-repo/generator:latest", "."]
-    }
-    images = ["europe-west1-docker.pkg.dev/${var.project_id}/volunteer-matching-repo/generator:latest"]
-  }
-}
-
 
 variable "project_id" {
   description = "El ID del proyecto"

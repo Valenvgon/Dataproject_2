@@ -5,7 +5,7 @@ project_id = "data-project-2425"
 region = "europe-west1"
 
 # Nombre del bucket para Dataflow
-bucket_dataflow = "dataflow_bucket_dataproject_2425"
+bucket_dataflow = "dataflow_bucket_prueba_2425"
 
 # Nombre del Artifact Registry
 artifact_repo = "volunteers-artifact-repo"
