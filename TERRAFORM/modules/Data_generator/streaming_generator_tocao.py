@@ -61,7 +61,7 @@ class PubSubMessages:
 
 def get_cities():
     cities_list = [
-        "valencia"
+        "valencia", 'albal'
     ]
 
     return cities_list
@@ -69,9 +69,12 @@ def get_cities():
 
 def get_messages_affected():
     messages = [
-    ("suministros", "Se necesita comida y agua potable para familias afectadas por la inundacion.", "comida_bebida"),
-    ("suministros", "Se necesita comida y agua potable para familias afectadas por la inundacion.", "comida_bebida"), 
-    ("suministros", "Se necesita comida y agua potable para familias afectadas por la inundacion.", "comida_bebida")
+
+    ("suministros", "Un refugio temporal requiere productos de higiene personal y desinfectantes.", "productos_limpieza"),
+    ("suministros", "Se solicita leche en polvo y pañales para bebes en un centro de acogida.", "comida_bebida"),
+    ("botas_chanel", "He perdido mis botas chanel, dadme unas", "botas"),
+    ("limpieza_calles/casas", "Las calles de un barrio estan cubiertas de lodo y se requieren palas para la limpieza.", "palas"),
+    ("limpieza_calles/casas", "Un centro comunitario necesita escobas para retirar el barro acumulado en el suelo.", "escobas")
 ]
     
     return messages
@@ -84,7 +87,12 @@ def generate_phone_number():
 def get_messages_volunteers():
     messages= [
     ("suministros", "Somos un grupo de voluntarios y llevamos comida y agua potable para los afectados.", "comida_bebida"),
-    ("suministros", "Recolectamos ropa seca para distribuirla entre quienes la necesiten.", "ropa")
+    ("capricho", "Quiero pasearme con mi bolso y hacerme una foto con alguien que lo haya perdido todo", "bolso_prada"),
+    ("suministros", "Recolectamos ropa seca para distribuirla entre quienes la necesiten.", "ropa"),
+    ("suministros", "Llevamos kits de higiene y productos de limpieza a los refugios.", "productos_limpieza"),
+    ("suministros", "Tenemos alimentos no perecederos para repartir en zonas afectadas.", "comida_bebida"),
+    ("suministros", "Estamos recolectando productos de higiene personal para entregar en los albergues.", "productos_limpieza")
+
     ]
 
     return messages 
@@ -158,7 +166,7 @@ def generate_affected_messages(affected_id, timestamp_af, city, city_data, radiu
         'disponibility': disponibility,
         "latitude": lat,
         "longitude": lon,
-        'procesed': 0
+        'processed': 0
     }
 
 def generate_volunteer_messages(volunteer_id, timestamp_vol, city_vol):
@@ -183,13 +191,13 @@ def generate_volunteer_messages(volunteer_id, timestamp_vol, city_vol):
         "necessity": necessity,
         "city": selected_city,
         'disponibility': disponibility,
-        'procesed': 0
+        'processed': 0
     }
 
 def run_streaming(project_id: str, affected_topic: str, volunteer_topic:str):
     pubsub_class = PubSubMessages(project_id=project_id)
-    affected_ids = [f"affected_{str(i).zfill(5)}" for i in range(10000, 10100)]
-    volunteer_ids = [f"volunteer_{str(i).zfill(5)}" for i in range(10000, 10100)]
+    affected_ids = [f"affected_{str(i).zfill(5)}" for i in range(10000, 9999999)]
+    volunteer_ids = [f"volunteer_{str(i).zfill(5)}" for i in range(10000, 9999999)]
     timestamps_af = {affected_id: datetime.now() for affected_id in affected_ids}
     timestamps_vol = {volunteer_id: datetime.now() for volunteer_id in volunteer_ids}
     city_coordinates, cities_list = get_city_coordinates()
@@ -209,7 +217,7 @@ def run_streaming(project_id: str, affected_topic: str, volunteer_topic:str):
             logging.info(f"Published message for {volunteer_id} to {volunteer_topic}")
             timestamps_af[affected_id] += timedelta(seconds=random.randint(1, 60))
             timestamps_vol[volunteer_id] += timedelta(seconds=random.randint(1, 60))
-            time.sleep(0.5)
+            time.sleep(2)
     
     except KeyboardInterrupt:
         logging.info("Process interrupted by user")
