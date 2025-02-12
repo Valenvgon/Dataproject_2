@@ -1,18 +1,35 @@
-provider "google" {
-    project = var.project_id
-    region  = "europe-west1"
+resource "google_pubsub_topic" "matched" {
+  name    = "matched"
+  project = var.project_id
 }
-resource "google_pubsub_topic" "topic3" {
-    name = "match_data"
-    project = var.project_id
+
+resource "google_pubsub_topic" "no_matched" {
+  name    = "no_matched"
+  project = var.project_id
 }
 
 resource "google_storage_bucket" "dataflow_bucket" {
-    name     = "dataflow-bucket-2425"
-    location = "EU"
+  name          = var.bucket_dataflow
+  location      = var.region
+  storage_class = "STANDARD"
 }
 
-resource "google_bigquery_dataset" "dataset" {
-    dataset_id = "dataflow_dataset"
-    location   = "EU"
+resource "google_bigquery_dataset" "volunteer_matching" {
+  dataset_id = "volunteer_matching"
+  project    = var.project_id
+  location   = var.region
+}
+variable "project_id" {
+  description = "El ID del proyecto"
+  type        = string
+}
+
+variable "region" {
+  description = "La región de despliegue"
+  type        = string
+}
+
+variable "bucket_dataflow" {
+  description = "nombre del bucket de dataflow"
+  type        = string
 }
