@@ -366,7 +366,23 @@ correrlo de forma local
     --affected_topic 'projects/data-project-2425/topics/affected' \
     --output_topic_non_matched 'projects/data-project-2425/topics/no-matched' \
     --output_topic_matched 'projects/data-project-2425/topics/matched' 
-    
+
+instrucciones para correr el script en windows (lara)
+
+python new_dataflow_pipeline.py ^
+    --project_id data-project-2425 ^
+    --affected_sub projects/data-project-2425/subscriptions/affected-sub ^
+    --volunteer_sub projects/data-project-2425/subscriptions/volunteer-sub ^
+    --volunteer_topic projects/data-project-2425/topics/volunteer ^
+    --affected_topic projects/data-project-2425/topics/affected ^
+    --output_topic_non_matched projects/data-project-2425/topics/no-matched ^
+    --output_topic_matched projects/data-project-2425/topics/matched ^
+    --bq_dataset terreta_data ^
+    --temp_location gs://dataflow_bucket_dataproject_2425/tmp ^
+    --staging_location gs://dataflow_bucket_dataproject_2425/stg ^
+    --runner DataflowRunner ^
+    --region europe-west1
+
 
 
     topics :
