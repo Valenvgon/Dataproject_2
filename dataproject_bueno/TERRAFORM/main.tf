@@ -27,3 +27,15 @@ module "dataflow_data" {
   temp_location   = var.temp_location
   staging_location= var.staging_location
 }
+
+module "streamlit_app" {
+  source         = "./modules/streamlit"
+  project_id     = var.project_id
+  region         = var.region
+  artifact_repo_streamlit = var.artifact_repo_streamlit
+  image_name     = var.image_name_streamlit
+  affected_topic         = var.affected_topic
+  volunteer_topic        = var.volunteer_topic
+
+  depends_on = [module.generator_data]
+}

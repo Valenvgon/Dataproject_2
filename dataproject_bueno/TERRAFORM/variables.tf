@@ -23,6 +23,11 @@ variable "image_name" {
   type        = string
 }
 
+variable "image_name_streamlit" {
+  description = "El nombre de la imagen Docker a construir"
+  type        = string
+}
+
 variable "image_name_dflow" {
   description = "El nombre de la imagen Docker a construir"
   type        = string
@@ -77,5 +82,10 @@ variable "temp_location" {
 
 variable "staging_location" {
   description = "La ruta GCS para archivos de staging de Dataflow (ej. gs://mi-bucket/stg)"
+  type        = string
+}
+
+variable "artifact_repo_streamlit" {
+  description = "El repositorio de Artifact Registry para Streamlit"
   type        = string
 }
