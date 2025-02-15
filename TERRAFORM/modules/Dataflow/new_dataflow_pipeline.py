@@ -6,7 +6,7 @@ from apache_beam.metrics import Metrics
 from apache_beam.io.gcp.bigquery import WriteToBigQuery
 from apache_beam.io.gcp.bigquery import BigQueryDisposition
 
-# B. Apache Beam ML Libraries
+# B. Apache Beam ML Libraries
 from apache_beam.ml.inference.base import ModelHandler
 from apache_beam.ml.inference.base import RunInference
 
@@ -108,7 +108,10 @@ def format_matched_for_bq(record):
         "affected_name": afectado.get("name", ""),
         "affected_phone": afectado.get("phone", ""),
         "volunteer_name": voluntario.get("name", ""),
-        "volunteer_phone": voluntario.get("phone", "")
+        "volunteer_phone": voluntario.get("phone", ""),
+        "affected_latitude": afectado.get("latitude", None),
+        "affected_longitude": afectado.get("longitude", None)
+
     }
 
 def format_unmatched_for_bq(record):
@@ -128,7 +131,9 @@ def format_unmatched_for_bq(record):
         "necessity": record.get("necessity", ""),
         "city": record.get("city", ""),
         "disponibility": record.get("disponibility", ""),
-        "processed": record.get("processed", 0)
+        "processed": record.get("processed", 0),
+        "affected_latitude": record.get("latitude", None),
+        "affected_longitude": record.get("longitude", None)
     }
 
 def run():
@@ -198,13 +203,15 @@ def run():
     # Definición de los esquemas de las tablas
     matched_schema = {
         "fields": [
-            {"name": "city",            "type": "STRING", "mode": "REQUIRED"},
-            {"name": "necessity",       "type": "STRING", "mode": "REQUIRED"},
-            {"name": "disponibility",   "type": "STRING", "mode": "REQUIRED"},
-            {"name": "affected_name",   "type": "STRING", "mode": "NULLABLE"},
-            {"name": "affected_phone",  "type": "STRING", "mode": "NULLABLE"},
-            {"name": "volunteer_name",  "type": "STRING", "mode": "NULLABLE"},
-            {"name": "volunteer_phone", "type": "STRING", "mode": "NULLABLE"}
+            {"name": "city",                "type": "STRING", "mode": "REQUIRED"},
+            {"name": "necessity",           "type": "STRING", "mode": "REQUIRED"},
+            {"name": "disponibility",       "type": "STRING", "mode": "REQUIRED"},
+            {"name": "affected_name",       "type": "STRING", "mode": "NULLABLE"},
+            {"name": "affected_phone",      "type": "STRING", "mode": "NULLABLE"},
+            {"name": "volunteer_name",      "type": "STRING", "mode": "NULLABLE"},
+            {"name": "volunteer_phone",     "type": "STRING", "mode": "NULLABLE"},
+            {"name": "affected_latitude",   "type": "FLOAT",  "mode": "NULLABLE"},
+            {"name": "affected_longitude",  "type": "FLOAT",  "mode": "NULLABLE"}
         ]
     }
 
@@ -219,7 +226,9 @@ def run():
             {"name": "necessity",      "type": "STRING",  "mode": "NULLABLE"},
             {"name": "city",           "type": "STRING",  "mode": "NULLABLE"},
             {"name": "disponibility",  "type": "STRING",  "mode": "NULLABLE"},
-            {"name": "processed",      "type": "INTEGER", "mode": "NULLABLE"}
+            {"name": "processed",      "type": "INTEGER", "mode": "NULLABLE"},
+            {"name": "affected_latitude", "type": "FLOAT",   "mode": "NULLABLE"},
+            {"name": "affected_longitude","type": "FLOAT",   "mode": "NULLABLE"}
         ]
     }
 
@@ -321,7 +330,7 @@ def run():
             )
         )
 
-if __name__ == '__main__':
+if _name_ == '_main_':
 
     # Set Logs
     logging.basicConfig(level=logging.INFO)
@@ -351,8 +360,8 @@ Till here i want to prove if the code is correct let's run it on dataflow  run p
     --runner DataflowRunner \
     --job_name 'data-flow-pruebas-1234-dataflow' \
     --region 'europe-west1' \
-    --temp_location 'gs://dataflow_bucket_dataproject_2425/tmp' \
-    --staging_location 'gs://dataflow_bucket_dataproject_2425/stg' \
+    --temp_location 'gs://dataflow_bucket_prueba_2425/tmp' \
+    --staging_location 'gs://dataflow_bucket_prueba_2425/stg' \
     --requirements_file 'requirements.txt'
 
     
@@ -365,7 +374,12 @@ correrlo de forma local
     --volunteer_topic 'projects/data-project-2425/topics/volunteer' \
     --affected_topic 'projects/data-project-2425/topics/affected' \
     --output_topic_non_matched 'projects/data-project-2425/topics/no-matched' \
-    --output_topic_matched 'projects/data-project-2425/topics/matched' 
+    --output_topic_matched 'projects/data-project-2425/topics/matched' \
+    --bq_dataset 'terreta_data' \
+    --matched_table 'matched_table' \
+    --unmatched_table 'non_matched_table' \
+    --temp_location 'gs://dataflow_bucket_prueba_2425/tmp' \
+    --staging_location 'gs://dataflow_bucket_prueba_2425/stg' 
 
 instrucciones para correr el script en windows (lara)
 
