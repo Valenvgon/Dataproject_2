@@ -330,7 +330,8 @@ def run():
             )
         )
 
-if _name_ == '_main_':
+if __name__ == '__main__':
+
 
     # Set Logs
     logging.basicConfig(level=logging.INFO)
