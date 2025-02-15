@@ -1,12 +1,15 @@
 module "data_generator" {
-  source         = "./modules/Data_Generator"
+  source         = "./Data_Generator"
   project_id     = var.project_id
   region         = var.region
 }
 
-module "dataflow" {
-  source         = "./modules/Dataflow"
+module "streamlit" {
+  source         = "./streamlit"
+
   project_id     = var.project_id
   region         = var.region
-  bucket_dataflow   = var.bucket_dataflow
+  artifact_repo  = var.artifact_repo
+  image_name     = var.image_name
+  depends_on = [module.data_generator]
 }
