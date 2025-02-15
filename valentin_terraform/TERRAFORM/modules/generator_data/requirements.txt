@@ -1,5 +1,0 @@
-apache-beam[gcp]
-google-cloud-pubsub
-faker
-geopy
-unidecode
