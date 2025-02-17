@@ -1,6 +1,0 @@
-streamlit
-google-cloud-pubsub
-google-cloud-bigquery
-pandas
-pydeck
-db_dtypes

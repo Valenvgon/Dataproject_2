@@ -1,5 +1,0 @@
-google-cloud-pubsub
-faker
-geopy
-unidecode
-argparse

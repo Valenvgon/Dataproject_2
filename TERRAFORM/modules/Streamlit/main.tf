@@ -1,18 +1,18 @@
-resource "google_artifact_registry_repository" "repo" {
+resource "google_artifact_registry_repository" "repo_streamlit" {
   project       = var.project_id
   location      = var.region
-  repository_id = var.artifact_repo
+  repository_id = var.artifact_repo_streamlit
   format        = "DOCKER"
 }
 
-resource "null_resource" "build_and_push_docker" {
-  depends_on = [google_artifact_registry_repository.repo]
+resource "null_resource" "build_and_push_docker_streamlit" {
+  depends_on = [google_artifact_registry_repository.repo_streamlit]
 
   provisioner "local-exec" {
     working_dir = path.module
     command = <<-EOT
-      docker build --platform=linux/amd64 -t europe-west1-docker.pkg.dev/${var.project_id}/${var.artifact_repo}/${var.image_name}:latest .
-      docker push europe-west1-docker.pkg.dev/${var.project_id}/${var.artifact_repo}/${var.image_name}:latest
+      docker build --platform=linux/amd64 -t ${var.region}-docker.pkg.dev/${var.project_id}/${var.artifact_repo_streamlit}/${var.image_name_streamlit}:latest .
+      docker push ${var.region}-docker.pkg.dev/${var.project_id}/${var.artifact_repo_streamlit}/${var.image_name_streamlit}:latest
     EOT
   }
 }
@@ -25,7 +25,7 @@ resource "google_cloud_run_service" "streamlit_service" {
   template {
     spec {
       containers {
-        image = "europe-west1-docker.pkg.dev/${var.project_id}/${var.artifact_repo}/${var.image_name}:latest"
+        image = "${var.region}-docker.pkg.dev/${var.project_id}/${var.artifact_repo_streamlit}/${var.image_name_streamlit}:latest"
 
         ports {
           container_port = 8501
@@ -37,15 +37,28 @@ resource "google_cloud_run_service" "streamlit_service" {
         }
         env {
           name  = "AFFECTED_TOPIC"
-          value = google_pubsub_topic.affected_topic.name
+          value = var.affected_topic
         }
         env {
           name  = "VOLUNTEER_TOPIC"
-          value = google_pubsub_topic.volunteer_topic.name
+          value = var.volunteer_topic
+        }
+        env{
+          name = "BQ_DATASET"
+          value= var.bq_dataset_streamlit
+        }
+        env{
+          name = "BQ_TABLE_UNMATCHED"
+          value = var.bq_table_streamlit
+        }
+        env{
+          name = "BQ_TABLE_MATCHED"
+          value = var.bq_table_streamlit_matched
         }
         resources {
           limits = {
-            memory = "2048Mi"
+            memory = "16Gi"
+            cpu    = "4"
           }
         }
       }
@@ -58,15 +71,15 @@ resource "google_cloud_run_service" "streamlit_service" {
   }
 
   depends_on = [
-    google_artifact_registry_repository.repo,
-    null_resource.build_and_push_docker
+    google_artifact_registry_repository.repo_streamlit,
+    null_resource.build_and_push_docker_streamlit
   ]
 }
 
-resource "google_cloud_run_service_iam_policy" "allow_public_access" {
-  location    = google_cloud_run_service.streamlit_service.location
-  project     = google_cloud_run_service.streamlit_service.project
-  service     = google_cloud_run_service.streamlit_service.name
+resource "google_cloud_run_service_iam_policy" "allow_public_access_streamlit" {
+  location = google_cloud_run_service.streamlit_service.location
+  project  = google_cloud_run_service.streamlit_service.project
+  service  = google_cloud_run_service.streamlit_service.name
 
   policy_data = <<EOT
 {
