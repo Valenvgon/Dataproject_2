@@ -7,10 +7,10 @@ import pydeck as pdk
 import db_dtypes
 
 # Configuración de Google Cloud a partir de variables de entorno
-PROJECT_ID = os.environ.get("PROJECT_ID")
-BQ_DATASET = os.environ.get("BQ_DATASET")
-BQ_TABLE_UNMATCHED = os.environ.get("BQ_TABLE_UNMATCHED")
-BQ_TABLE_MATCHED = os.environ.get("BQ_TABLE_MATCHED")
+PROJECT_ID = "data-project-2425"
+BQ_DATASET = "volunteer_matching"
+BQ_TABLE_UNMATCHED = "unmatched"
+BQ_TABLE_MATCHED = "matched"
 
 
 # Configurar clientes de Google Cloud
@@ -18,8 +18,8 @@ publisher = pubsub_v1.PublisherClient()
 bq_client = bigquery.Client()
 
 # Tópicos de Pub/Sub desde variables de entorno
-TOPIC_AFFECTED = os.environ.get("AFFECTED_TOPIC")
-TOPIC_VOLUNTEER = os.environ.get("VOLUNTEER_TOPIC")
+TOPIC_AFFECTED = "affected"
+TOPIC_VOLUNTEER = "volunteer"
 
 TOPIC_AFFECTED = f"projects/{PROJECT_ID}/topics/{TOPIC_AFFECTED}"
 TOPIC_VOLUNTEER = f"projects/{PROJECT_ID}/topics/{TOPIC_VOLUNTEER}"
