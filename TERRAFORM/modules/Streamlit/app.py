@@ -17,8 +17,8 @@ publisher = pubsub_v1.PublisherClient()
 bq_client = bigquery.Client()
 
 # Tópicos de Pub/Sub desde variables de entorno
-TOPIC_AFFECTED_ENV = os.environ.get("TOPIC_AFFECTED")
-TOPIC_VOLUNTEER_ENV = os.environ.get("TOPIC_VOLUNTEER")
+TOPIC_AFFECTED_ENV = os.environ.get("AFFECTED_TOPIC")
+TOPIC_VOLUNTEER_ENV = os.environ.get("VOLUNTEER_TOPIC")
 
 TOPIC_AFFECTED = f"projects/{PROJECT_ID}/topics/{TOPIC_AFFECTED_ENV}"
 TOPIC_VOLUNTEER = f"projects/{PROJECT_ID}/topics/{TOPIC_VOLUNTEER_ENV}"
