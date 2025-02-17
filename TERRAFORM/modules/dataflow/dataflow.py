@@ -197,11 +197,11 @@ def run():
         )
     
         # Procesar no matcheados y re-publicar aquellos con processed < 7
-        unmatched_affected_less_7 = unmatched_affected_pcoll | "FilterAff<7" >> beam.Filter(lambda x: x.get('processed', 0) < 3)
-        unmatched_affected_ge_7   = unmatched_affected_pcoll | "FilterAff>=7" >> beam.Filter(lambda x: x.get('processed', 0) >= 3)
+        unmatched_affected_less_7 = unmatched_affected_pcoll | "FilterAff<7" >> beam.Filter(lambda x: x.get('processed', 0) < 7)
+        unmatched_affected_ge_7   = unmatched_affected_pcoll | "FilterAff>=7" >> beam.Filter(lambda x: x.get('processed', 0) >= 7)
     
-        unmatched_volunteer_less_7 = unmatched_volunteer_pcoll | "FilterVol<7" >> beam.Filter(lambda x: x.get('processed', 0) < 3)
-        unmatched_volunteer_ge_7   = unmatched_volunteer_pcoll | "FilterVol>=7" >> beam.Filter(lambda x: x.get('processed', 0) >= 3)
+        unmatched_volunteer_less_7 = unmatched_volunteer_pcoll | "FilterVol<7" >> beam.Filter(lambda x: x.get('processed', 0) < 7)
+        unmatched_volunteer_ge_7   = unmatched_volunteer_pcoll | "FilterVol>=7" >> beam.Filter(lambda x: x.get('processed', 0) >= 7)
     
         (
             unmatched_affected_less_7
