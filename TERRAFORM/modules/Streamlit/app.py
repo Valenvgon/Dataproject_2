@@ -23,7 +23,6 @@ TOPIC_VOLUNTEER = os.environ.get("VOLUNTEER_TOPIC")
 
 TOPIC_AFFECTED = f"projects/{PROJECT_ID}/topics/{TOPIC_AFFECTED}"
 TOPIC_VOLUNTEER = f"projects/{PROJECT_ID}/topics/{TOPIC_VOLUNTEER}"
-
 # Validar que las variables de entorno están configuradas correctamente
 if not all([PROJECT_ID, BQ_DATASET, BQ_TABLE_UNMATCHED, BQ_TABLE_MATCHED, TOPIC_AFFECTED, TOPIC_VOLUNTEER]):
     st.error("Faltan variables de entorno necesarias. Verifique la configuración.")
@@ -91,6 +90,7 @@ with tab1:
             future = publisher.publish(topic, message_json)
             st.success(f"{user_type} registrado correctamente.")
             st.write(f"Mensaje enviado a Pub/Sub con ID: {future.result()}")
+
 
 # Pestaña 2: Mapa de Alertas
 with tab2:
