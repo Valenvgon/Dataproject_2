@@ -1,4 +1,3 @@
-project_id                  = "data-project-2425"
 region                      = "europe-west1"
 artifact_repo_generator     = "data-generate-repo"
 artifact_repo_dataflow      = "data-flow-repodos"
