@@ -1,6 +1,0 @@
-project_id       = "data-project-2425"
-region           = "europe-west1"
-artifact_repo    = "volunteer-matching-repo"
-image_name       = "generator-data"
-affected_topic   = "affected"
-volunteer_topic  = "volunteer"
