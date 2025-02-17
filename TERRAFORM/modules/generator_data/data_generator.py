@@ -59,7 +59,7 @@ def get_messages_affected():
         ("limpieza", "Un centro comunitario necesita escobas para retirar el barro acumulado en el suelo.", "escobas"),
         ("medicinas", "Un centro de salud necesita medicamentos esenciales para pacientes afectados.", "medicinas"),
         ("transporte", "Se necesita transporte para evacuar personas de areas afectadas.", "transporte"),
-        ("refugio", "Familias desplazadas necesitan albergue temporal.", "refugio")
+        ("refugio", "Familias desplazadas necesitan albergue temporal.", "refugio"),
         ("medicinas", "Necesitamos medicinas genericas para dolor de cabeza", "medicinas")
 
     ]
