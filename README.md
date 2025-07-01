@@ -20,7 +20,7 @@ Nuestro reto como equipo del máster fue **conectar rápidamente a afectados con
 | Procesar lógica de emparejamiento        | **Cloud Functions**           | Ejecuta código bajo demanda sin gestionar servidores.         |
 | Almacenar y analizar los eventos         | **BigQuery**                  | SQL serverless, particiones por fecha, consultas en segundos. |
 | Transformar y asegurar calidad de datos  | **Dataform**                  | ELT declarativo con control de versiones y tests.             |
-| Exponer API a la web                     | **Cloud Run (FastAPI)**       | Contenedores auto-escalables con pay-per-use.                 |
+| Exponer API a la web                     | **Cloud Run (Streamlit)**     | Contenedores auto-escalables con pay-per-use.                 |
 | Autenticación de usuarios                | **Firebase Auth**             | Registro social/email en minutos.                             |
 | Despliegue reproducible                  | **Terraform + Cloud Build**   | Infraestructura como código y CI/CD.                          |
 
